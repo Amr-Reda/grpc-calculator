@@ -1,7 +1,20 @@
 syntax = "proto3";
 
 package calculator;
-option go_package = "./calculator_proto";
-// the prev line will create a folder if not exist 
+// the following line will create a folder if not exist 
 // and put the <package name in line 3>.pb.go file as output when execute the cmd commands
-service CalculatorService{}
+option go_package = "./calculator_proto";
+
+message SumRequest {
+    float num1 = 1;
+    float num2 = 2;
+}
+
+message SumResponse {
+    float result = 1;
+}
+
+service CalculatorService{
+    // Unary
+    rpc Sum (SumRequest) returns (SumResponse) {};
+}
