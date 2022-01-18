@@ -38,5 +38,6 @@ chmod u+x generate.sh
 ### Executing program
 
 ```
-code blocks for commands
+go run calculator_server/server.go
+go run calculator_client/client.go
 ```
