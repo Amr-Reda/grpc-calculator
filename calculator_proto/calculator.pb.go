@@ -27,9 +27,10 @@ var file_calculator_proto_calculator_proto_rawDesc = []byte{
 	0x0a, 0x21, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x5f, 0x70, 0x72, 0x6f,
 	0x74, 0x6f, 0x2f, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x70, 0x72,
 	0x6f, 0x74, 0x6f, 0x12, 0x0a, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x32,
-	0x0c, 0x0a, 0x0a, 0x43, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x42, 0x14, 0x5a,
-	0x12, 0x2e, 0x2f, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x5f, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x13, 0x0a, 0x11, 0x43, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x53, 0x65, 0x72,
+	0x76, 0x69, 0x63, 0x65, 0x42, 0x14, 0x5a, 0x12, 0x2e, 0x2f, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c,
+	0x61, 0x74, 0x6f, 0x72, 0x5f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x33,
 }
 
 var file_calculator_proto_calculator_proto_goTypes = []interface{}{}
@@ -73,35 +74,35 @@ var _ grpc.ClientConnInterface
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion6
 
-// CalculatorClient is the client API for Calculator service.
+// CalculatorServiceClient is the client API for CalculatorService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type CalculatorClient interface {
+type CalculatorServiceClient interface {
 }
 
-type calculatorClient struct {
+type calculatorServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewCalculatorClient(cc grpc.ClientConnInterface) CalculatorClient {
-	return &calculatorClient{cc}
+func NewCalculatorServiceClient(cc grpc.ClientConnInterface) CalculatorServiceClient {
+	return &calculatorServiceClient{cc}
 }
 
-// CalculatorServer is the server API for Calculator service.
-type CalculatorServer interface {
+// CalculatorServiceServer is the server API for CalculatorService service.
+type CalculatorServiceServer interface {
 }
 
-// UnimplementedCalculatorServer can be embedded to have forward compatible implementations.
-type UnimplementedCalculatorServer struct {
+// UnimplementedCalculatorServiceServer can be embedded to have forward compatible implementations.
+type UnimplementedCalculatorServiceServer struct {
 }
 
-func RegisterCalculatorServer(s *grpc.Server, srv CalculatorServer) {
-	s.RegisterService(&_Calculator_serviceDesc, srv)
+func RegisterCalculatorServiceServer(s *grpc.Server, srv CalculatorServiceServer) {
+	s.RegisterService(&_CalculatorService_serviceDesc, srv)
 }
 
-var _Calculator_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "calculator.Calculator",
-	HandlerType: (*CalculatorServer)(nil),
+var _CalculatorService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "calculator.CalculatorService",
+	HandlerType: (*CalculatorServiceServer)(nil),
 	Methods:     []grpc.MethodDesc{},
 	Streams:     []grpc.StreamDesc{},
 	Metadata:    "calculator_proto/calculator.proto",

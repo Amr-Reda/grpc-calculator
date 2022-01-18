@@ -17,6 +17,6 @@ func main() {
 	}
 	defer conn.Close()
 
-	client := calculator_proto.NewCalculatorClient(conn)
+	client := calculator_proto.NewCalculatorServiceClient(conn)
 	fmt.Printf("Created client: %f", client)
 }

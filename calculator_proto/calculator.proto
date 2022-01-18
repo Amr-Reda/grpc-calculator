@@ -4,4 +4,4 @@ package calculator;
 option go_package = "./calculator_proto";
 // the prev line will create a folder if not exist 
 // and put the <package name in line 3>.pb.go file as output when execute the cmd commands
-service Calculator{}
+service CalculatorService{}

@@ -19,7 +19,7 @@ func main() {
 	fmt.Println("App running on port: 50051")
 
 	s := grpc.NewServer()
-	calculator_proto.RegisterCalculatorServer(s, &server{})
+	calculator_proto.RegisterCalculatorServiceServer(s, &server{})
 
 	errSrv := s.Serve(lis)
 	if errSrv != nil {
