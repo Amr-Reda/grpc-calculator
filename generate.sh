@@ -1,3 +1,3 @@
 #!/bin/bash
 
-protoc proto/calculator.proto --go_out=plugins=grpc:.
+protoc calculator_proto/calculator.proto --go_out=plugins=grpc:.
