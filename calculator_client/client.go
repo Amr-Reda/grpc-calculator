@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 
@@ -13,10 +14,25 @@ func main() {
 
 	conn, err := grpc.Dial("0.0.0.0:50051", grpc.WithInsecure())
 	if err != nil {
-		log.Fatalf("Failed to establish connection: %v", err)
+		log.Fatalf("Failed to establish connection: %v\n", err)
 	}
 	defer conn.Close()
 
 	client := calculator_proto.NewCalculatorServiceClient(conn)
-	fmt.Printf("Created client: %f", client)
+	fmt.Println("<== Created client ==>")
+
+	doUnary(client)
+}
+
+func doUnary(client calculator_proto.CalculatorServiceClient) {
+	req := &calculator_proto.SumRequest{
+		Num1: 1,
+		Num2: 2,
+	}
+	res, err := client.Sum(context.Background(), req)
+	if err != nil {
+		log.Fatalf("Error while call Sum RPC: %v", err)
+	}
+	log.Println("Response from Sum:", res.Result)
+	// log.Printf("Response from Sum: %v", res.Result)
 }
