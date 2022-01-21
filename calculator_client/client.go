@@ -21,10 +21,10 @@ func main() {
 	client := calculator_proto.NewCalculatorServiceClient(conn)
 	fmt.Println("<== Created client ==>")
 
-	doUnary(client)
+	doSum(client)
 }
 
-func doUnary(client calculator_proto.CalculatorServiceClient) {
+func doSum(client calculator_proto.CalculatorServiceClient) {
 	req := &calculator_proto.SumRequest{
 		Num1: 1,
 		Num2: 2,
