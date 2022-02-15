@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"time"
 
 	"github.com/Amr-Reda/calculator/calculator_proto"
 	"google.golang.org/grpc"
@@ -26,6 +27,8 @@ func main() {
 	doPrimeNumberDecomposition(client)
 	// Client Streaming
 	doComputeAverage(client)
+	// Bi Direction Streaming
+	doFindMax(client)
 }
 
 func doSum(client calculator_proto.CalculatorServiceClient) {
@@ -67,7 +70,7 @@ func doPrimeNumberDecomposition(client calculator_proto.CalculatorServiceClient)
 }
 
 func doComputeAverage(client calculator_proto.CalculatorServiceClient) {
-	fmt.Println("Starting to do a ComputeAverage Server Streaming RPC...")
+	fmt.Println("Starting to do a ComputeAverage Client Streaming RPC...")
 	stream, err := client.ComputeAverage(context.Background())
 	if err != nil {
 		log.Fatalf("Error while call ComputeAverage RPC: %v", err)
@@ -83,7 +86,53 @@ func doComputeAverage(client calculator_proto.CalculatorServiceClient) {
 
 	res, err := stream.CloseAndRecv()
 	if err != nil {
-		log.Fatalf("Error while receiving response fromComputeAverage RPC: %v", err)
+		log.Fatalf("Error while receiving response from ComputeAverage RPC: %v", err)
 	}
 	log.Println("Response from ComputeAverage:", res.GetAverageResult())
+}
+
+func doFindMax(client calculator_proto.CalculatorServiceClient) {
+	fmt.Println("Starting to do a FindMax Bi Direction Streaming RPC...")
+
+	// create stream
+	stream, err := client.FindMax(context.Background())
+	if err != nil {
+		log.Fatalf("Error while creating FindMax RPC stream: %v", err)
+	}
+
+	waitc := make(chan struct{})
+
+	// send a bunch of messages to the client (go routine)
+	go func() {
+		numbers := []int32{3, 5, 2, 54, 23}
+		for _, number := range numbers {
+			fmt.Println("Sending number:", number)
+			stream.Send(&calculator_proto.FindMaxRequest{
+				Num: number,
+			})
+			time.Sleep(1000 * time.Microsecond)
+		}
+		stream.CloseSend()
+	}()
+
+	// receive a bunch of messages from the server (go routine)
+	go func() {
+		for {
+			res, err := stream.Recv()
+			// end of stream
+			if err == io.EOF {
+				break
+			}
+
+			if err != nil {
+				log.Fatalf("Error while receive FindMax RPC server stream: %v", err)
+			}
+
+			log.Println("Response from FindMax:", res.GetMaxResult())
+		}
+		close(waitc)
+	}()
+
+	// block until everything is done
+	<-waitc
 }
