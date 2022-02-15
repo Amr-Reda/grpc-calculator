@@ -24,6 +24,8 @@ func main() {
 	doSum(client)
 	// Server Streaming
 	doPrimeNumberDecomposition(client)
+	// Client Streaming
+	doComputeAverage(client)
 }
 
 func doSum(client calculator_proto.CalculatorServiceClient) {
@@ -62,4 +64,26 @@ func doPrimeNumberDecomposition(client calculator_proto.CalculatorServiceClient)
 
 		log.Println("Response from PrimeNumberDecomposition:", res.GetPrimeFactorResult())
 	}
+}
+
+func doComputeAverage(client calculator_proto.CalculatorServiceClient) {
+	fmt.Println("Starting to do a ComputeAverage Server Streaming RPC...")
+	stream, err := client.ComputeAverage(context.Background())
+	if err != nil {
+		log.Fatalf("Error while call ComputeAverage RPC: %v", err)
+	}
+
+	numbers := []int32{3, 5, 9, 54, 23}
+	for _, number := range numbers {
+		fmt.Println("Sending number:", number)
+		stream.Send(&calculator_proto.ComputeAverageRequest{
+			Num: number,
+		})
+	}
+
+	res, err := stream.CloseAndRecv()
+	if err != nil {
+		log.Fatalf("Error while receiving response fromComputeAverage RPC: %v", err)
+	}
+	log.Println("Response from ComputeAverage:", res.GetAverageResult())
 }
